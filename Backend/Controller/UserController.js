@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secret = process.env.secret
 const googleTTS = require('google-tts-api')
-const {sendOtpEmail} = require('../Utils/EmailService')
-const sendermail = process.env.user
-const mailkey = process.env.pass
+const {sendOtpEmail} = require('../Utils/Email')
+const sendermail = process.env.GMAIL_USER
+const mailkey = process.env.GMAIL_APP_PASSWORD
 
 
 exports.sendingdata = async (req, res) => {
@@ -15,7 +15,7 @@ exports.sendingdata = async (req, res) => {
     const user = await usermodel.findOne({email})
 
     if(user){
-        return res.status(400).json({message : "email is exists"})
+        return res.status(400).json({message : "Email is already exists"})
     }
 
    const salt = bcrypt.genSaltSync(10)
@@ -42,7 +42,7 @@ exports.sendingdata = async (req, res) => {
    const datasave = new usermodel({name, email, password : hash, age, gender, otp})
     await datasave.save()
 
-    return res.status(200).json({message : "data has been saved"})
+    return res.status(200).json({message : "User data saved successfully"})
 
 }
 
@@ -53,19 +53,19 @@ exports.logindata = async(req, res) =>{
     const user = await usermodel.findOne({email})
 
     if(!user){
-        return res.status(400).json({message : "email not found"})
+        return res.status(400).json({message : "Email not found"})
     }
 
     const match = bcrypt.compareSync(password, user.password)
 
     if(!match){
-        return res.status(400).json({message : "password not match"})
+        return res.status(400).json({message : "Password is incorrect"})
     }
 
     const token = jwt.sign({email: user.email, id : user._id},secret, {expiresIn: '12h'} )
 
     const userdata = {
-        message: "login successful",
+        message: "Login Successful",
         token,
         email: user.email
     }
@@ -81,14 +81,14 @@ exports.otpdata = async(req, res) => {
     const user = await usermodel.findOne({email})
 
     if(!user){
-        return res.status(200).json({message: "email is exist already"})
+        return res.status(200).json({message: "Email exist already"})
     }
 
     if(otp !== user.otp){
-        return res.status(400).json({message : "otp not match"})
+        return res.status(400).json({message : "OTP is incorrect"})
     }
 
-    return res.status(200).json({message: "otp match successfully"})
+    return res.status(200).json({message: "OTP matched successfully"})
   
 
 }

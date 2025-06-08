@@ -23,7 +23,7 @@ exports.getalllists = async(req, res) => {
     if(!lists){
         return res.status(400).json({message: "error getting list"})
     }
-    return res.status(200).json({message: "here are all lists", list: lists})
+    return res.status(200).json({message: "Totel list", list: lists})
 }
 
 exports.deletelist = async(req, res) => {
@@ -47,12 +47,12 @@ exports.getall = async(req, res) => {
         .populate('userId')
 
         if (listdata.length === 0) {
-            return res.status(404).json({ message: 'No list found' });
+            return res.status(404).json({ message: 'List not found' });
         }
 
         return res.status(200).json({
             status: true,
-            message: 'listss fetched successfully',
+            message: 'List fetched successfully',
             data: listdata
         });
 }
