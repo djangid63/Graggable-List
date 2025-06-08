@@ -22,7 +22,6 @@ const SignUp = () => {
 
   const handlesubmit = (e) => {
     e.preventDefault()
-    console.log(formdata.name, formdata.email, formdata.password, formdata.age, formdata.gender)
 
     sendingdata()
     setformdata({

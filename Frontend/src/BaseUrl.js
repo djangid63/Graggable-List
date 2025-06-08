@@ -1,4 +1,4 @@
-const baseurl = 'https://mini-trello-1kja.onrender.com'
+const baseurl = 'https://graggable-list-backend.onrender.com'
 
 export default baseurl
 

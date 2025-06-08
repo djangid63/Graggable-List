@@ -103,7 +103,6 @@ exports.texttospeech = async(req, res) =>{
         slow: false,
         host: 'https://translate.google.com',
       });
-      console.log(url);
 
       if(!url){
         return res.status(400).json({message : "error"})
@@ -140,7 +139,6 @@ exports.passwordupdate = async(req, res) => {
 exports.dataupdate = async(req, res) => {
     const {name, age, email} = req.body
 
-    console.log(`>>>req.body>>>`, req.body)
 
     const user = await usermodel.findOne({email})
 
